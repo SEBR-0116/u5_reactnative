@@ -578,3 +578,38 @@ Try adding a second button to [Share](https://facebook.github.io/react-native/do
 ### Wrapping Up
 
 Today we made a react native app, with async requests to fetch random prompts. 
+
+## Bonus Challenge #2
+
+### Connecting React Native Front-End to a Local Express Server
+
+To connect a React Native app to an Express server, you need to tell the Express server to run on a specific host. By default, it will run on `localhost` or `127.0.0.1`. This is an issue when using a React Native App because other devices (such as your phone) will not be able to access your server.
+
+To fix this, the `app.listen` function takes a second parameter of `hostname` where you can specify an IP address. Therefore, making an `.env` file with your IP Address is recommended (since you don't necessarily want your IP Address to be accessible by the public). Keep in mind that this will make your server accessible to everyone on your local network, so ideally you do this on a private network where no outside sources can touch your project.
+
+```js
+app.listen(PORT, process.env.IP_ADDRESS, () => {
+  console.log(`Successfully connected to ${process.env.IP_ADDRESS}:${PORT}`)
+})
+```
+
+### Connecting React Native Front-End to a Local Django Server
+
+With Django, the process is a little bit more complicated, but it keeps the same concepts from the Express server. The most important thing is to tell Django where you are allowed to run your server. Inside of your `settings.py` file, look for the `ALLOWED_HOSTS` variable (This should already be in your project when you create it), and add your IP Address to the list:
+
+```py
+ALLOWED_HOSTS = [
+  ...
+  "Your Computer's IP Address here",
+]
+```
+
+Then, whenever you run your app, you have to specifically tell it where to run (otherwise, it will default to `localhost` and give you an error because it is not an allowed host)
+
+```sh
+python3 manage.py runserver <YOUR IP ADDRESS HERE>
+```
+> 💡 Remember to remove the <> when running it on your shell.
+
+And there you go! You should have a Django Rest Framework or an Express server ready for your app to make API calls to. Great job!
+
